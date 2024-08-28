@@ -1,0 +1,49 @@
+version: '2.2' 
+services:
+  nginxproxymanager:
+    image: 'jc21/nginx-proxy-manager:latest' 
+    container_name: nginxproxymanager
+    restart: unless-stopped 
+    ports:
+      - '80:80'
+      - '81:81'
+      - '443:443' 
+    volumes:
+      - ./appdata/nginx/data:/data
+      - ./appdata/nginx/letsencrypt:/etc/letsencrypt 
+
+  nextcloud:
+    image: lscr.io/linuxserver/nextcloud:latest
+    container_name: nextcloud
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin 
+    volumes:
+      - ./appdata/nextcloud/appdata:/config 
+      - ./appdata/nextcloud/data:/data
+    restart: unless-stopped 
+
+  # homeassistant:
+  #   image: lscr.io/linuxserver/homeassistant:latest
+  #   container_name: homeassistant 
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - TZ=Europe/Berlin 
+  #   volumes:
+  #     - .appdata/hass/config:/config 
+  #   restart: unless-stopped
+
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin 
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin 
+    volumes:
+      - ./appdata/jellyfin/config:/config
+      - ./appdata/jellyfin/tvshows:/data/tvshows
+      - ./appdata/jellyfin/movies:/data/movies 
+    restart: unless-stopped
