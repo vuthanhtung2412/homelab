@@ -55,3 +55,12 @@ services:
       - SUBDOMAINS=${DUCKDNS_SUBDOMAINS}
       - TOKEN=${DUCKDNS_TOKEN}
     restart: unless-stopped
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    ports:
+      - 9443:9443
+    volumes:
+      - ./appdata/portainer/data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
