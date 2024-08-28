@@ -47,3 +47,11 @@ services:
       - ./appdata/jellyfin/tvshows:/data/tvshows
       - ./appdata/jellyfin/movies:/data/movies 
     restart: unless-stopped
+
+  duckdns:
+    image: lscr.io/linuxserver/duckdns:latest
+    container_name: duckdns
+    environment:
+      - SUBDOMAINS=${DUCKDNS_SUBDOMAINS}
+      - TOKEN=${DUCKDNS_TOKEN}
+    restart: unless-stopped
